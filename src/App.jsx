@@ -1,122 +1,109 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useEffect, useState } from "react";
+import LeadForm from "./components/LeadForm.jsx";
+import LeadList from "./components/LeadList.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [allLeads, setAllLeads] = useState([]);
+  const [leads, setLeads] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+
+  const fetchAllLeads = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/leads");
+      const data = await res.json();
+      setAllLeads(data);
+      setLeads(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllLeads();
+  }, []);
+
+  const handleSearch = () => {
+    if (!searchInput.trim()) {
+      setLeads(allLeads);
+      return;
+    }
+
+    const filtered = allLeads.filter((lead) =>
+      lead.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+      lead.phone.includes(searchInput)
+    );
+
+    setLeads(filtered);
+  };
+
+  const clearSearch = () => {
+    setSearchInput("");
+    setLeads(allLeads);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+    <div style={styles.container}>
+      <h1 style={styles.title}>CRM Dashboard</h1>
+
+      {/* 🔍 Search */}
+      <div style={styles.searchBox}>
+        <input
+          placeholder="Search..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          style={styles.input}
+        />
+        <button onClick={handleSearch} style={styles.button}>
+          Search
         </button>
-      </section>
+        <button onClick={clearSearch} style={styles.clearBtn}>
+          Clear
+        </button>
+      </div>
 
-      <div className="ticks"></div>
+      <LeadForm fetchLeads={fetchAllLeads} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <LeadList leads={leads} fetchLeads={fetchAllLeads} />
+    </div>
+  );
 }
 
-export default App
+const styles = {
+  container: {
+    padding: 20,
+    maxWidth: 800,
+    margin: "auto",
+    fontFamily: "Arial",
+  },
+  title: {
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  searchBox: {
+    display: "flex",
+    gap: 10,
+    marginBottom: 20,
+  },
+  input: {
+    flex: 1,
+    padding: 8,
+    border: "1px solid #ccc",
+  },
+  button: {
+    padding: "8px 16px",
+    background: "#007bff",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+  },
+  clearBtn: {
+    padding: "8px 16px",
+    background: "#dc3545",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+  },
+};
+
+export default App;
