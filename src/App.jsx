@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useState } from "react";
 import LeadForm from "./components/LeadForm.jsx";
-import LeadList from "./components/LeadList.jsx";
+import LeadList from "./components/leadList.jsx";
 
 function App() {
   const [allLeads, setAllLeads] = useState([]);

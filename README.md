@@ -1,18 +1,123 @@
-# React + Vite
+# CRM Frontend (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Overview
 
-Currently, two official plugins are available:
+This is the frontend of the CRM Lead Management System built using React.
+It provides a simple and responsive interface to manage leads including adding, viewing, searching, and updating lead status.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+* React.js (SPA)
+* Vite
+* Fetch API
+* CSS (inline styling)
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+* ➕ Add new leads
+* 📋 View all leads
+* 🔍 Search leads (client-side filtering for fast UX)
+* 🔄 Update lead status
+* ⚡ Fast and responsive UI
+
+---
+
+## 🏗️ Architecture
+
+* Single Page Application (SPA)
+* Uses React hooks (`useState`, `useEffect`)
+* Communicates with backend via REST API
+
+---
+
+## 🌐 API Integration
+
+The frontend connects to the backend API:
+
+```text
+https://crm-real-estate-red.vercel.app/api/leads
+```
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 2️⃣ Run development server
+
+```bash
+npm run dev
+```
+
+---
+
+### 3️⃣ Open in browser
+
+```text
+http://localhost:5173
+```
+
+---
+
+## 📂 Project Structure
+
+```text
+src/
+  App.jsx
+  main.jsx
+  components/
+    LeadForm.jsx
+    LeadList.jsx
+```
+
+---
+
+## 🔍 Search Functionality
+
+* Implemented on the frontend for instant results
+* Filters leads based on:
+
+  * name
+  * phone
+
+---
+
+## ⚡ Key Highlights
+
+* Clean and minimal UI
+* Fast filtering without API delay
+* Easy to extend and maintain
+* Modular component structure
+
+---
+
+## ⚠️ Notes
+
+* API URL is currently hardcoded
+* Can be moved to environment variables for production
+
+---
+
+## 🚧 Future Improvements
+
+* Better UI/UX design
+* Form validation enhancements
+* Pagination
+* Debounced search
+
+---
+
+## 👨‍💻 Author
+
+Vaibhav Pandey
